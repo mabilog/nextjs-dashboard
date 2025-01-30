@@ -117,7 +117,9 @@ export async function updateInvoice(
       WHERE id = ${id}
     `;
   } catch (error) {
-    console.error("Something went wrong while updating invoice: ", error);
+    return {
+      message: "Database Error: Failed to Update Invoice",
+    };
   }
 
   revalidatePath("/dashboard/invoices");
@@ -125,7 +127,6 @@ export async function updateInvoice(
 }
 
 export async function deleteInvoice(id: string) {
-  throw new Error("Failed to Delete Invoice");
   // try {
   await sql`DELETE FROM invoices WHERE id = ${id}`;
   // } catch (error) {
