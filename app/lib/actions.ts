@@ -84,7 +84,8 @@ export async function createInvoice(
   } catch (error) {
     // If a database error occurs, return a more specific error
     return {
-      message: "Database Error: Failed to Create Invoice",
+      message: "Database Error: Failed to Create Invoice, ",
+      error,
     };
   }
 
@@ -122,7 +123,8 @@ export async function updateInvoice(
     `;
   } catch (error) {
     return {
-      message: "Database Error: Failed to Update Invoice",
+      message: "Database Error: Failed to Update Invoice ",
+      error,
     };
   }
 
@@ -131,11 +133,7 @@ export async function updateInvoice(
 }
 
 export async function deleteInvoice(id: string) {
-  // try {
   await sql`DELETE FROM invoices WHERE id = ${id}`;
-  // } catch (error) {
-  //   console.error("Something went wrong while deleting invoice: ", error);
-  // }
 
   revalidatePath("/dashboard/invoices");
 }
