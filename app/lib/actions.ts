@@ -84,8 +84,7 @@ export async function createInvoice(
   } catch (error) {
     // If a database error occurs, return a more specific error
     return {
-      message: "Database Error: Failed to Create Invoice, ",
-      errors: {},
+      message: `Database Error: Failed to Create Invoice: ${error} `,
     };
   }
 
@@ -123,8 +122,7 @@ export async function updateInvoice(
     `;
   } catch (error) {
     return {
-      message: "Database Error: Failed to Update Invoice ",
-      errors: {},
+      message: `Database Error: Failed to Update Invoice ${error}`,
     };
   }
 
