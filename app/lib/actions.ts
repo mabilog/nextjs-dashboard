@@ -53,7 +53,7 @@ export type State = {
 export async function createInvoice(
   prevState: State, // Contains the state passed from the useActionState hook. Not used in the action in this example but is a required prop.
   formData: FormData
-) {
+): Promise<State> {
   // Validate form fields using Zod
   const validatedFields = CreateInvoice.safeParse({
     customerId: formData.get("customerId"),
@@ -64,7 +64,7 @@ export async function createInvoice(
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     return {
-      error: validatedFields.error.flatten().fieldErrors,
+      errors: validatedFields.error.flatten().fieldErrors,
       message: "Missing Fields. Failed to Create Invoice.",
     };
   }
@@ -85,7 +85,7 @@ export async function createInvoice(
     // If a database error occurs, return a more specific error
     return {
       message: "Database Error: Failed to Create Invoice, ",
-      error,
+      errors: {},
     };
   }
 
@@ -98,7 +98,7 @@ export async function updateInvoice(
   id: string,
   prevState: State,
   formData: FormData
-) {
+): Promise<State> {
   const validatedFields = UpdateInvoice.safeParse({
     customerId: formData.get("customerId"),
     amount: formData.get("amount"),
@@ -124,7 +124,7 @@ export async function updateInvoice(
   } catch (error) {
     return {
       message: "Database Error: Failed to Update Invoice ",
-      error,
+      errors: {},
     };
   }
 
